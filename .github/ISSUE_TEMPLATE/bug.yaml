@@ -1,0 +1,26 @@
+name: Bug Report
+description: File a bug report.
+labels: [bug]
+assignees: [brobeson]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the workflow are you using?
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the current erroneous behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should happen?
+      description: Describe the expected behavior.
+    validations:
+      required: true

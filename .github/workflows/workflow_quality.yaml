@@ -1,0 +1,9 @@
+name: Workflow Quality
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  quality:
+    name: Support Files
+    uses: brobeson/SupportFileQuality/.github/workflows/support_files.yaml@v1

@@ -1,0 +1,24 @@
+name: New Step
+description: Add a new step to the workflow.
+labels: ["new step"]
+assignees: [brobeson]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the workflow are you using?
+    validations:
+      required: true
+  - type: textarea
+    id: new-step
+    attributes:
+      label: New step
+      description: Describe the new step.
+    validations:
+      required: true
+  - type: input
+    id: marketplace-action
+    attributes:
+      label: Marketplace Action
+      description: If there is an action in GitHub's marketplace, add a link.

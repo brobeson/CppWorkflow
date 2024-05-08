@@ -1,0 +1,6 @@
+{
+  "cSpell.checkOnlyEnabledFileTypes": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "githubIssues.issueBranchTitle": "${issueNumber}-${sanitizedIssueTitle}"
+}

@@ -1,0 +1,15 @@
+# Adapted from https://stackoverflow.com/a/70715829
+# Ignore everything, then add back the files for Prettier to format. Also, tell
+# Prettier to search subdirectories.
+
+# Ignore everything
+*
+
+# Include files by extension
+!*.json
+!*.md
+!*.yaml
+!*.yml
+
+# Check subdirectories
+!*/

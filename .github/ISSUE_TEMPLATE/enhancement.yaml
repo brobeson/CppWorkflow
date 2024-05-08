@@ -1,0 +1,26 @@
+name: Enhancement
+description: Update an existing step in the workflow.
+labels: [enhancement]
+assignees: [brobeson]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the workflow are you using?
+    validations:
+      required: true
+  - type: input
+    id: step
+    attributes:
+      label: Step
+      description: Which step are we improving?
+    validations:
+      required: true
+  - type: textarea
+    id: enhancement
+    attributes:
+      label: Enhancement
+      description: Describe the enhancement.
+    validations:
+      required: true
