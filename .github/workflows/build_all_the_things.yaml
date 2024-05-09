@@ -1,0 +1,21 @@
+# cspell:words nproc
+name: C++
+on:
+  workflow_call:
+    inputs:
+      configure-definitions:
+        description: CMake variable definitions
+        required: false
+        type: string
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build-type: [Debug, Release]
+    uses: ./.github/workflows/cpp_build.yaml
+    with:
+      build-type: ${{matrix.build-type}}
+      os: ${{matrix.os}}
+      configure-definitions: ${{inputs.configure-definitions}}

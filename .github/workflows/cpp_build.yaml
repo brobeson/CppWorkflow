@@ -1,0 +1,32 @@
+# cspell:words nproc
+name: C++
+on:
+  workflow_call:
+    inputs:
+      build-type:
+        description: The build type or configuration, such as 'Debug' or 'Release'
+        required: true
+        type: string
+      os:
+        description: The runner for the workflow
+        required: true
+        type: string
+      configure-definitions:
+        description: CMake variable definitions
+        required: false
+        type: string
+jobs:
+  build:
+    name: ${{inputs.os}}, ${{inputs.build-type}}
+    runs-on: ${{inputs.os}}
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+      - name: Configure the build system
+        run: cmake -B build/ ${{inputs.configure-definitions}} -D CMAKE_BUILD_TYPE:STRING=${{inputs.build-type}}
+      - name: Build the software
+        # Normally I would use --parallel $(nproc), but that doesn't fly on
+        # Windows. GH-hosted runners have 3 or 4 CPUs, so just go with 3.
+        run: cmake --build build/ --parallel 3 --config ${{inputs.build-type}}
+      - name: Run tests
+        run: ctest --test-dir build/ --parallel 3 --build-config ${{inputs.build-type}} --output-on-failure
