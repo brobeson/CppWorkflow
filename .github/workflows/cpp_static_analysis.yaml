@@ -1,0 +1,17 @@
+name: C++
+on:
+  push:
+  workflow_call:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+      - name: clang-format Check
+        # cspell:ignore jidicula
+        uses: jidicula/clang-format-action@v4.13.0
+        with:
+          clang-format-version: 16

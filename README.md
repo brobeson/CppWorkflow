@@ -5,13 +5,15 @@
 [![Workflow Quality](https://github.com/brobeson/CppWorkflow/actions/workflows/workflow_quality.yaml/badge.svg)](https://github.com/brobeson/CppWorkflow/actions/workflows/workflow_quality.yaml)
 ![GitHub Release](https://img.shields.io/github/v/release/brobeson/CppWorkflow?logo=github)
 
-This repository containers two reusable workflows to build and test a C++ project.
+This repository containers three reusable workflows to build and test a C++ project.
 
 - [C++ Build](#c-build)  
   This workflow implements one build & test pipeline.
   It requires inputs, such as the target operating system and the build type, to control the build.
 - [Build All The Things](#build-all-the-things)  
   This workflow implements a matrix and runs the [C++ build workflow](#c-build) for each matrix cell.
+- [Static Analysis](#static-analysis)  
+  This workflow runs static analysis tools on the C++ code.
 
 ## C++ Build
 
@@ -116,6 +118,30 @@ jobs:
 This workflow does not implement any steps.
 It invokes the [C++ Build](#c-build) workflow for each cell in the matrix described above.
 See the [C++ Build steps](#steps) for details.
+
+## Static Analysis
+
+### Getting Started <!-- markdownlint-disable-line -->
+
+To use the C++ static analysis workflow, just set it in the `uses` key of a job in your project's workflow file.
+Here is an example workflow snippet that calls this workflow:
+
+```yaml
+jobs:
+  build:
+    name: C++ Code Quality
+    uses: brobeson/CppWorkflow/.github/workflows/cpp_static_analysis.yaml@v1
+```
+
+### Inputs <!-- markdownlint-disable-line -->
+
+This workflow does not have any input options.
+
+### Steps <!-- markdownlint-disable-line -->
+
+1. **Check C++ Code Format**  
+   This steps runs [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
+   It does not reformat and commit your code; it just reports files are incorrectly formatted.
 
 ## Issue Tracking
 
