@@ -1,5 +1,4 @@
-# cspell:words nproc
-name: C++
+name: Build All the Things
 on:
   workflow_call:
     inputs:

@@ -5,7 +5,7 @@
 [![Workflow Quality](https://github.com/brobeson/CppWorkflow/actions/workflows/workflow_quality.yaml/badge.svg)](https://github.com/brobeson/CppWorkflow/actions/workflows/workflow_quality.yaml)
 ![GitHub Release](https://img.shields.io/github/v/release/brobeson/CppWorkflow?logo=github)
 
-This repository containers three reusable workflows to build and test a C++ project.
+This repository contains three reusable workflows to build and test a C++ project.
 
 - [C++ Build](#c-build)  
   This workflow implements one build & test pipeline.
@@ -135,13 +135,29 @@ jobs:
 
 ### Inputs <!-- markdownlint-disable-line -->
 
-This workflow does not have any input options.
+- `configure-definitions`
+  - **Required** no
+  - **Type** string
+  - **Description** This is CMake variable definitions to pass to the `cmake` configure command.
+    The C++ static analysis workflow runs CMake to provide a compilation database to tools like clang-tidy.
+    This must be a single string, and must include the `-D` part.
+    _This workflow will force `CMAKE_EXPORT_COMPILE_COMMANDS` to `on` and `CMAKE_BUILD_TYPE` to `Debug`._
+  - **Example**
+    ```yaml
+    with:
+      configure-definitions: -D BUILD_TESTING:BOOL=on
+    ```
 
 ### Steps <!-- markdownlint-disable-line -->
 
 1. **Check C++ Code Format**  
-   This steps runs [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
+   This step runs [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
    It does not reformat and commit your code; it just reports files are incorrectly formatted.
+1. **Run clang-tidy**  
+   This step runs [clang-tidy](https://clang.llvm.org/extra/clang-tidy/) on your project.
+   It configures a debug build and builds the software.
+   The CMake configuration provides the _compile_commands.json_ database required by clang-tidy.
+   The build ensures that clang can find any build-generated files, such as C++ protocol buffers.
 
 ## Issue Tracking
 

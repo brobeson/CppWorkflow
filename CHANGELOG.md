@@ -3,6 +3,7 @@
 ## [Next Release](https://github.com/brobeson/CppWorkflow/milestone/1)
 
 [#1](https://github.com/brobeson/CppWorkflow/issues/1) | Add a new C++ static analysis workflow which validates C++ code format
+[#2](https://github.com/brobeson/CppWorkflow/issues/2) | Add clang-tidy to the C++ static analysis workflow
 
 ## [v1.0.0](https://github.com/brobeson/CppWorkflow/releases/tag/v1.0.0)
 

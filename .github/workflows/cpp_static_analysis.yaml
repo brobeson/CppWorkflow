@@ -1,13 +1,20 @@
-name: C++
+name: C++ Static Analysis
 on:
-  push:
   workflow_call:
-  workflow_dispatch:
+    inputs:
+      configure-definitions:
+        description: CMake variable definitions
+        required: false
+        type: string
 jobs:
-  build:
+  staticAnalysis:
     name: Static Analysis
     runs-on: ubuntu-latest
     steps:
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --assume-yes --no-install-recommends clang-tidy-15
       - name: Clone the repository
         uses: actions/checkout@v4
       - name: clang-format Check
@@ -15,3 +22,19 @@ jobs:
         uses: jidicula/clang-format-action@v4.13.0
         with:
           clang-format-version: 16
+      - name: Configure the build system # Some tools require the build system
+        run: >
+          cmake
+          -B build/
+          ${{inputs.configure-definitions}} 
+          -D CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=true
+          -D CMAKE_BUILD_TYPE:STRING=Debug
+      - name: Build the software
+        run: cmake --build build/ --parallel $(nproc) --config Debug
+      - name: Run clang-tidy
+        run: >
+          run-clang-tidy-15
+          -j $(nproc)
+          -p build/
+          -extra-arg=-Wno-unknown-warning-option
+          **/*.cpp

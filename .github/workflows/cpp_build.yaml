@@ -1,5 +1,4 @@
-# cspell:words nproc
-name: C++
+name: C++ Builds
 on:
   workflow_call:
     inputs:
@@ -19,14 +18,29 @@ jobs:
   build:
     name: ${{inputs.os}}, ${{inputs.build-type}}
     runs-on: ${{inputs.os}}
+    env:
+      # Normally I would use --parallel $(nproc), but that doesn't fly on
+      # Windows. GH-hosted runners have 3 or 4 CPUs, so just go with 3.
+      NPROC: 3
     steps:
       - name: Clone the repository
         uses: actions/checkout@v4
       - name: Configure the build system
-        run: cmake -B build/ ${{inputs.configure-definitions}} -D CMAKE_BUILD_TYPE:STRING=${{inputs.build-type}}
+        run: >
+          cmake 
+          -B build/ 
+          ${{inputs.configure-definitions}} 
+          -D CMAKE_BUILD_TYPE:STRING=${{inputs.build-type}}
       - name: Build the software
-        # Normally I would use --parallel $(nproc), but that doesn't fly on
-        # Windows. GH-hosted runners have 3 or 4 CPUs, so just go with 3.
-        run: cmake --build build/ --parallel 3 --config ${{inputs.build-type}}
+        run: >
+          cmake 
+          --build build/ 
+          --parallel ${NPROC} 
+          --config ${{inputs.build-type}}
       - name: Run tests
-        run: ctest --test-dir build/ --parallel 3 --build-config ${{inputs.build-type}} --output-on-failure
+        run: >
+          ctest 
+          --test-dir build/ 
+          --parallel ${NPROC} 
+          --build-config ${{inputs.build-type}} 
+          --output-on-failure
