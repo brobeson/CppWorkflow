@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        build-type: [Debug, Release]
+        build-type: [Debug, Release, ASan]
     uses: ./.github/workflows/cpp_build.yaml
     with:
       build-type: ${{matrix.build-type}}

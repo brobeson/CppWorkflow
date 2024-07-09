@@ -27,7 +27,7 @@ Here is an example workflow snippet that calls this workflow:
 jobs:
   build:
     name: C++ Build
-    uses: brobeson/CppWorkflow/.github/workflows/build_all_the_things.yaml@v1
+    uses: brobeson/CppWorkflow/.github/workflows/cpp_build.yaml@v1
     with:
       build-type: Debug
       os: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
     strategy:
       build-type: [Debug, MinSizeRel, Release, RelWithDebInfo]
       os: [ubuntu-latest, macos-lates]
-    uses: brobeson/CppWorkflow/.github/workflows/build_all_the_things.yaml@v1
+    uses: brobeson/CppWorkflow/.github/workflows/cpp_build.yaml@v1
     with:
       build-type: ${{matrix.build-type}}
       os: ${{matrix.os}}
